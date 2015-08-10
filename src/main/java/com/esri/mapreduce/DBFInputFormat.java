@@ -11,6 +11,7 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -22,11 +23,13 @@ public class DBFInputFormat
     protected List<FileStatus> listStatus(final JobContext job) throws IOException
     {
         final List<FileStatus> list = super.listStatus(job);
-        for (final FileStatus fileStatus : list)
+        Iterator<FileStatus> iterator = list.iterator();
+        while (iterator.hasNext())
         {
+            FileStatus fileStatus = iterator.next();
             if (!fileStatus.getPath().getName().toLowerCase().endsWith(".dbf"))
             {
-                list.remove(fileStatus);
+                iterator.remove();
             }
         }
         return list;
