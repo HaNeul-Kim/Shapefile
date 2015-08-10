@@ -30,11 +30,14 @@ public class DBFRecordReader
     protected DBFReader m_dbfReader;
     protected long m_recno;
     private ArrayList<Text> m_keys;
+    private String characterSet;
 
     public DBFRecordReader(
             final InputSplit inputSplit,
-            final TaskAttemptContext taskAttemptContext) throws IOException, InterruptedException
+            final TaskAttemptContext taskAttemptContext,
+            final String characterSet) throws IOException, InterruptedException
     {
+        this.characterSet = characterSet;
         initialize(inputSplit, taskAttemptContext);
     }
 
@@ -50,7 +53,7 @@ public class DBFRecordReader
             final Path path = fileSplit.getPath();
             final FileSystem fileSystem = path.getFileSystem(taskAttemptContext.getConfiguration());
             m_dbfStream = fileSystem.open(path);
-            m_dbfReader = new DBFReader(m_dbfStream);
+            m_dbfReader = new DBFReader(m_dbfStream, characterSet);
 
             final List<DBFField> fields = m_dbfReader.getFields();
             m_keys = new ArrayList<Text>(fields.size());

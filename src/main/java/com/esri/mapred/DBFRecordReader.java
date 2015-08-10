@@ -32,7 +32,8 @@ public class DBFRecordReader
 
     public DBFRecordReader(
             final InputSplit inputSplit,
-            final JobConf jobConf) throws IOException
+            final JobConf jobConf,
+            final String characterSet) throws IOException
     {
         if (inputSplit instanceof FileSplit)
         {
@@ -40,7 +41,7 @@ public class DBFRecordReader
             m_length = fileSplit.getLength();
             final Path path = fileSplit.getPath();
             m_dbfStream = path.getFileSystem(jobConf).open(path);
-            m_dbfReader = new DBFReader(m_dbfStream);
+            m_dbfReader = new DBFReader(m_dbfStream, characterSet);
 
             final List<DBFField> fields = m_dbfReader.getFields();
             m_keys = new ArrayList<Text>(fields.size());

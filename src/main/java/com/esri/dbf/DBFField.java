@@ -71,7 +71,9 @@ public class DBFField implements Serializable
         return field;
     }
 
-    public Object readValue(final DataInputStream dataInputStream) throws IOException
+    public Object readValue(
+            final DataInputStream dataInputStream,
+            final String characterSet) throws IOException
     {
         final byte bytes[] = new byte[fieldLength];
         dataInputStream.readFully(bytes);
@@ -79,7 +81,7 @@ public class DBFField implements Serializable
         switch (dataType)
         {
             case 'C':
-                return new String(bytes).trim();
+                return new String(bytes, characterSet).trim();
             case 'D':
                 return readTimeInMillis(bytes);
             case 'F':
@@ -108,7 +110,7 @@ public class DBFField implements Serializable
         }
     }
 
-    public Writable readWritable(final DataInputStream dataInputStream) throws IOException
+    public Writable readWritable(final DataInputStream dataInputStream, final String characterSet) throws IOException
     {
         final byte bytes[] = new byte[fieldLength];
         dataInputStream.readFully(bytes);
@@ -116,7 +118,7 @@ public class DBFField implements Serializable
         switch (dataType)
         {
             case 'C':
-                return new Text(bytes);
+                return new Text(new String(bytes, characterSet));
             case 'D':
                 return new LongWritable(readTimeInMillis(bytes));
             case 'F':

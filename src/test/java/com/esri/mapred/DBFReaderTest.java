@@ -21,7 +21,7 @@ public class DBFReaderTest extends MapredFS
     {
         final Path dbf = getPath("/testpoint.dbf");
         final FileSplit fileSplit = getFileSplit(dbf);
-        final DBFRecordReader dbfRecordReader = new DBFRecordReader(fileSplit, m_jobConfig);
+        final DBFRecordReader dbfRecordReader = new DBFRecordReader(fileSplit, m_jobConfig, "UTF-8");
         final LongWritable key = dbfRecordReader.createKey();
         final MapWritable value = dbfRecordReader.createValue();
         assertTrue(dbfRecordReader.next(key, value));

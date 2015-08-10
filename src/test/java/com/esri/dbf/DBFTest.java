@@ -30,7 +30,7 @@ public class DBFTest
         assertNotNull(inputStream);
         try
         {
-            final DBFReader dbfReader = new DBFReader(new DataInputStream(inputStream));
+            final DBFReader dbfReader = new DBFReader(new DataInputStream(inputStream), "UTF-8");
             final List<DBFField> fields = dbfReader.getFields();
             assertEquals(6, fields.size());
             assertField(fields.get(0), "AShort", 'N', 4, 0);
@@ -83,7 +83,7 @@ public class DBFTest
         try
         {
             final DataInputStream dataInputStream = new DataInputStream(inputStream);
-            final DBFReader dbfReader = new DBFReader(dataInputStream);
+            final DBFReader dbfReader = new DBFReader(dataInputStream, "UTF-8");
 
             assertNotEquals(DBFType.END, dbfReader.nextDataType());
 

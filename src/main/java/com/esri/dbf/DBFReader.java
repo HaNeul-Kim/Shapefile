@@ -17,11 +17,13 @@ public class DBFReader implements Serializable
 {
     private final transient DataInputStream m_dataInputStream;
     private final transient DBFHeader m_header;
+    private final String characterSet;
 
-    public DBFReader(final DataInputStream dataInputStream) throws IOException
+    public DBFReader(final DataInputStream dataInputStream, final String characterSet) throws IOException
     {
         m_dataInputStream = dataInputStream;
         m_header = DBFHeader.read(dataInputStream);
+        this.characterSet = characterSet;
     }
 
     public Map<String, Object> readRecordAsMap(final Map<String, Object> map) throws IOException
@@ -33,7 +35,7 @@ public class DBFReader implements Serializable
         }
         for (final DBFField field : m_header.fields)
         {
-            map.put(field.fieldName, field.readValue(m_dataInputStream));
+            map.put(field.fieldName, field.readValue(m_dataInputStream, this.characterSet));
         }
         return map;
     }
@@ -131,13 +133,13 @@ public class DBFReader implements Serializable
     public Object readFieldValue(final int index) throws IOException
     {
         return m_header.getField(index)
-                       .readValue(m_dataInputStream);
+                       .readValue(m_dataInputStream, characterSet);
     }
 
     public Writable readFieldWritable(final int index) throws IOException
     {
         return m_header.getField(index)
-                       .readWritable(m_dataInputStream);
+                       .readWritable(m_dataInputStream, characterSet);
     }
 
 }

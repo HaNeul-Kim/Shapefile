@@ -36,7 +36,7 @@ abstract class AbstractFeatureReader<T extends Writable>
         final String dbfName = shpPath.getName().replace(".shp", ".dbf");
         final Path dbfPath = new Path(shpPath.getParent(), dbfName);
         m_dbfStream = dbfPath.getFileSystem(jobConf).open(dbfPath);
-        m_dbfReader = new DBFReader(m_dbfStream);
+        m_dbfReader = new DBFReader(m_dbfStream, "UTF-8");
         // Create a list of field name as Hadoop Text instances
         final List<DBFField> fields = m_dbfReader.getFields();
         m_keys = new ArrayList<Text>(fields.size());

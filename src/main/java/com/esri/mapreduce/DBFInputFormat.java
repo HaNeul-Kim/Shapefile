@@ -45,6 +45,7 @@ public class DBFInputFormat
             final InputSplit inputSplit,
             final TaskAttemptContext taskAttemptContext) throws IOException, InterruptedException
     {
-        return new DBFRecordReader(inputSplit, taskAttemptContext);
+        String characterSet = taskAttemptContext.getConfiguration().get("characterSet", "UTF-8");
+        return new DBFRecordReader(inputSplit, taskAttemptContext, characterSet);
     }
 }

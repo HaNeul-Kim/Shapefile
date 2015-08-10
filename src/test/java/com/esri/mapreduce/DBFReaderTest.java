@@ -23,7 +23,7 @@ public class DBFReaderTest extends MapreduceFS
         final Path dbf = getPath("/testpoint.dbf");
         final FileSplit fileSplit = getFileSplit(dbf);
         final TaskAttemptContext taskAttemptContext = new TaskAttemptContextImpl(m_jobConfig, new TaskAttemptID());
-        final DBFRecordReader dbfRecordReader = new DBFRecordReader(fileSplit, taskAttemptContext);
+        final DBFRecordReader dbfRecordReader = new DBFRecordReader(fileSplit, taskAttemptContext, "UTF-8");
         assertTrue(dbfRecordReader.nextKeyValue());
         assertEquals(0L, dbfRecordReader.getCurrentKey().get());
         assertAttributeKeys(dbfRecordReader.getCurrentValue());

@@ -51,6 +51,7 @@ public class DBFInputFormat extends FileInputFormat<LongWritable, MapWritable>
             final JobConf jobConf,
             final Reporter reporter) throws IOException
     {
-        return new DBFRecordReader(inputSplit, jobConf);
+        String characterSet = jobConf.get("characterSet", "UTF-8");
+        return new DBFRecordReader(inputSplit, jobConf, characterSet);
     }
 }
